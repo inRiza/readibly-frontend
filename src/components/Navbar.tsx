@@ -201,99 +201,109 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <motion.div
-        initial={false}
-        animate={{ height: isMobileMenuOpen ? 'auto' : 0 }}
-        className="md:hidden"
-      >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          {navLinks.map((link) => (
-            <div key={link.name}>
-              {link.href ? (
-                <Link
-                  href={link.href}
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    pathname === link.href
-                      ? 'text-blue-600 bg-blue-50'
-                      : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <div>
-                  <button
-                    onClick={() => toggleDropdown(link.name)}
-                    className={`w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center justify-between ${
-                      activeDropdown === link.name
-                        ? 'text-blue-600 bg-blue-50'
-                        : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
-                    }`}
-                  >
-                    {link.name}
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform ${
-                        activeDropdown === link.name ? 'rotate-180' : ''
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden overflow-hidden"
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navLinks.map((link) => (
+                <div key={link.name}>
+                  {link.href ? (
+                    <Link
+                      href={link.href}
+                      className={`block px-3 py-2 rounded-md text-base font-medium ${
+                        pathname === link.href
+                          ? 'text-blue-600 bg-blue-50'
+                          : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
                       }`}
-                    />
-                  </button>
-                  <AnimatePresence>
-                    {activeDropdown === link.name && link.dropdown && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="pl-4"
+                    >
+                      {link.name}
+                    </Link>
+                  ) : (
+                    <div>
+                      <button
+                        onClick={() => toggleDropdown(link.name)}
+                        className={`w-full text-left px-3 py-2 rounded-md text-base font-medium flex items-center justify-between ${
+                          activeDropdown === link.name
+                            ? 'text-blue-600 bg-blue-50'
+                            : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                        }`}
                       >
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.name}
-                            href={item.href}
-                            className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                        {link.name}
+                        <ChevronDown
+                          className={`h-4 w-4 transition-transform ${
+                            activeDropdown === link.name ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+                      <AnimatePresence>
+                        {activeDropdown === link.name && link.dropdown && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="pl-4"
                           >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                            {link.dropdown.map((item) => (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className="block px-3 py-2 text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
+              
+              {/* Mobile auth buttons */}
+              <div className="pt-4 border-t border-gray-200">
+                {user ? (
+                  <div className="space-y-2">
+                    <Link
+                      href="/dashboard"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                    >
+                      Dashboard
+                    </Link>
+                    <button
+                      onClick={logout}
+                      className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Link
+                      href="/login"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
+                    >
+                      Sign in
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md"
+                    >
+                      Get Started
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
-          ))}
-          {user ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-              >
-                Dashboard
-              </Link>
-              <button
-                onClick={logout}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-              >
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/login"
-                className="block px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-blue-600 hover:bg-blue-50"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/signup"
-                className="block px-3 py-2 rounded-md text-base font-medium text-blue-600 bg-blue-50 hover:bg-blue-100"
-              >
-                Get Started
-              </Link>
-            </>
-          )}
-        </div>
-      </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }
