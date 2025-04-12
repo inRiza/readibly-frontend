@@ -5,8 +5,11 @@ import { Button } from '@/components/ui/button';
 import { BookOpen, Headphones, Brain, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
 
 export default function DashboardPage() {
+  const { user } = useAuth();
+
   return (
     <DashboardLayout>
       <motion.div 
@@ -20,7 +23,7 @@ export default function DashboardPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <h1 className="text-3xl font-bold">Welcome to Readibly</h1>
+          <h1 className="text-3xl font-bold">👋 Hello, {user?.username || 'User'}</h1>
           <p className="text-gray-600 mt-2">Choose a service to get started</p>
         </motion.div>
 
