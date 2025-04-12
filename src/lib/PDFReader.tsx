@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { api } from '@/services/api';
 import EyeTrackerJS from '@/components/EyeTrackerJS';
 import { Button } from '@/components/ui/button';
-import { Upload, Eye, Settings, Plus, Minus, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import { Upload, Eye, Settings, Plus, Minus, ChevronLeft, ChevronRight, X, Volume2 } from 'lucide-react';
 
 const PDFReader = () => {
     const [parsedText, setParsedText] = useState<string | null>(null);
@@ -22,6 +22,7 @@ const PDFReader = () => {
     const [showSettings, setShowSettings] = useState(false);
     const [fontSizeInput, setFontSizeInput] = useState('18');
     const [letterSpacingInput, setLetterSpacingInput] = useState('0.1');
+    const [isSpeaking, setIsSpeaking] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const containerVariants = {
@@ -209,6 +210,39 @@ const PDFReader = () => {
         }
     };
 
+    const speakText = async (text: string) => {
+        if (isSpeaking) {
+            window.speechSynthesis.cancel();
+            setIsSpeaking(false);
+            return;
+        }
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-US';
+        utterance.rate = 0.8;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const englishVoice = voices.find(voice => 
+            voice.lang.includes('en') && voice.name.includes('Google')
+        ) || voices.find(voice => voice.lang.includes('en')) || voices[0];
+        
+        if (englishVoice) {
+            utterance.voice = englishVoice;
+        }
+
+        utterance.onstart = () => {
+            setIsSpeaking(true);
+        };
+
+        utterance.onend = () => {
+            setIsSpeaking(false);
+        };
+
+        window.speechSynthesis.speak(utterance);
+    };
+
     return (
         <motion.div
             className="w-full"
@@ -219,29 +253,44 @@ const PDFReader = () => {
             <div className="border-b border-gray-100 p-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleFileUpload}
+                        <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept=".pdf"
+                            onChange={handleFileUpload}
                             className="hidden"
                             id="pdf-upload"
+                            style={{ zIndex: 1000 }}
                         />
                         <label
                             htmlFor="pdf-upload"
                             className="flex items-center gap-2 px-4 py-2 bg-purple-50 text-[#2e31ce] rounded-lg cursor-pointer hover:bg-purple-100 transition-colors"
+                            style={{ zIndex: 1000 }}
                         >
                             <Upload className="h-4 w-4" />
                             <span className="text-sm font-medium">Upload PDF</span>
                         </label>
                         <Button
                             variant="outline"
-                    onClick={() => setIsEyeTrackingEnabled(!isEyeTrackingEnabled)}
+                            onClick={() => setIsEyeTrackingEnabled(!isEyeTrackingEnabled)}
                             className={`border-gray-200 ${isEyeTrackingEnabled ? 'bg-purple-50 text-[#2e31ce] border-[#2e31ce]' : ''}`}
                         >
                             <Eye className="h-4 w-4 mr-2" />
                             {isEyeTrackingEnabled ? 'Eye Tracking On' : 'Enable Eye Tracking'}
                         </Button>
+                        {parsedText && (
+                            <Button
+                                onClick={() => speakText(parsedText)}
+                                className={`flex items-center space-x-2 ${
+                                    isSpeaking 
+                                        ? 'bg-red-500 hover:bg-red-600 text-white' 
+                                        : 'bg-purple-50 text-[#2e31ce] hover:bg-purple-100'
+                                }`}
+                            >
+                                <Volume2 className="w-4 h-4" />
+                                <span>{isSpeaking ? 'Stop Reading' : 'Read Aloud'}</span>
+                            </Button>
+                        )}
                     </div>
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-2">

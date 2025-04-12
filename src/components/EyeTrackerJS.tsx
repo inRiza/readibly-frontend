@@ -229,7 +229,7 @@ const EyeTrackerJS: React.FC<EyeTrackerProps> = ({
       {isEnabled && (
         <div 
           ref={debugRef}
-          className="fixed top-4 left-4 z-50 bg-black bg-opacity-70 text-white p-2 rounded text-xs"
+          className="fixed bottom-4 right-4 z-50 bg-black bg-opacity-70 text-white p-2 rounded text-xs"
         />
       )}
       
@@ -255,6 +255,87 @@ const EyeTrackerJS: React.FC<EyeTrackerProps> = ({
           </>
         )}
       </div>
+
+      {/* Add global styles for WebGazer video */}
+      <style jsx global>{`
+        #webgazerVideoFeed {
+          position: fixed !important;
+          bottom: 16px !important;
+          right: 16px !important;
+          width: 192px !important;
+          height: 144px !important;
+          object-fit: cover !important;
+          border-radius: 8px !important;
+          border: 2px solid #2e31ce !important;
+          z-index: 0 !important;
+          transform: scaleX(-1) !important;
+          top: auto !important;
+          left: auto !important;
+          pointer-events: none !important;
+        }
+
+        #webgazerFaceFeedbackBox {
+          position: fixed !important;
+          bottom: 16px !important;
+          right: 16px !important;
+          width: 192px !important;
+          height: 144px !important;
+          border-radius: 8px !important;
+          z-index: 0 !important;
+          transform: scaleX(-1) !important;
+          top: auto !important;
+          left: auto !important;
+          pointer-events: none !important;
+        }
+
+        #webgazerFaceOverlay {
+          position: fixed !important;
+          bottom: 16px !important;
+          right: 16px !important;
+          width: 192px !important;
+          height: 144px !important;
+          border-radius: 8px !important;
+          z-index: 0 !important;
+          transform: scaleX(-1) !important;
+          top: auto !important;
+          left: auto !important;
+          pointer-events: none !important;
+        }
+
+        #webgazerPredictionPoints {
+          position: fixed !important;
+          bottom: 16px !important;
+          right: 16px !important;
+          width: 192px !important;
+          height: 144px !important;
+          border-radius: 8px !important;
+          z-index: 0 !important;
+          transform: scaleX(-1) !important;
+          top: auto !important;
+          left: auto !important;
+          pointer-events: none !important;
+        }
+
+        /* Ensure all WebGazer elements are below other UI elements */
+        #webgazerVideoFeed,
+        #webgazerFaceFeedbackBox,
+        #webgazerFaceOverlay,
+        #webgazerPredictionPoints {
+          z-index: 0 !important;
+          pointer-events: none !important;
+        }
+
+        /* Add a container to ensure UI elements are above WebGazer */
+        .webgazer-container {
+          position: fixed;
+          bottom: 16px;
+          right: 16px;
+          width: 192px;
+          height: 144px;
+          z-index: 0;
+        }
+      `}</style>
+      <div className="webgazer-container"></div>
     </>
   );
 };
