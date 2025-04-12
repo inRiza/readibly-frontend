@@ -36,7 +36,7 @@ export default function Home() {
                 Transform your reading experience with AI-powered eye-tracking and text-to-speech technology. Designed specifically for people with dyslexia.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/tutorial">
+                <Link href="/login">
                   <Button className="bg-gradient-to-r from-[#2e31ce] to-[#772abe] text-white text-base font-medium px-8 py-6 rounded-lg hover:from-[#373ad3] hover:to-[#9967c7] transition-all duration-300">
                     Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
