@@ -253,7 +253,7 @@ function TypeLearnPageContent() {
                   }`}
                 >
                   <Volume2 className="w-4 h-4" />
-                  <span>{isSpeaking ? 'Stop Reading' : 'Read Word'}</span>
+                  <span>{isSpeaking ? 'Stop Reading' : 'Read All'}</span>
                 </Button>
                 <Button
                   onClick={reloadTyping}

@@ -350,7 +350,7 @@ function ReadLearnPageContent() {
                       className="bg-purple-50 text-[#2e31ce] hover:bg-purple-100"
                     >
                       <Play className="w-4 h-4 mr-2" />
-                      Read Word by Word
+                      Read All
                     </Button>
                     <Button
                       onClick={() => speakText(selectedTemplate.content)}
