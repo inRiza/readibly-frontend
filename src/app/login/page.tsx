@@ -33,7 +33,7 @@ function LoginContent() {
       await login(email, password);
       setSuccess('Login successful! Redirecting...');
       setTimeout(() => {
-        router.push('/dashboard');
+        router.push('/tutorial');
       }, 1000);
     } catch (err) {
       if (err instanceof Error) {
