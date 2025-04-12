@@ -1,4 +1,7 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://readibly-backend-production.up.railway.app' 
+    : 'http://localhost:8000');
 
 export interface PDFResponse {
   status: string;
@@ -136,4 +139,4 @@ export const api = {
 
     return response.json();
   }
-}; 
+};
