@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { BookOpen, Headphones, Brain, Users, Target, Lightbulb } from 'lucide-react';
+import Image from 'next/image';
 
 export default function AboutPage() {
   return (
@@ -126,8 +127,14 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
               >
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-400">Profile Picture</span>
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
+                  <Image
+                    src="/img/fina.jpg"
+                    alt="Stefany Josefina Santoso"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Stefany Josefina Santoso</h3>
                 <p className="text-[#2e31ce] font-medium">Business Analyst</p>
@@ -140,8 +147,14 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
               >
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-400">Profile Picture</span>
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
+                  <Image
+                    src="/img/rizain.jpg"
+                    alt="Muhammad Rizain Firdaus"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Muhammad Rizain Firdaus</h3>
                 <p className="text-[#2e31ce] font-medium">Full Stack & UI/UX Developer</p>
@@ -154,8 +167,14 @@ export default function AboutPage() {
                 whileHover={{ scale: 1.02 }}
                 className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow text-center"
               >
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-400">Profile Picture</span>
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
+                  <Image
+                    src="/img/fadhlan.jpg"
+                    alt="Muhammad Fadhlan Karimuddin"
+                    width={128}
+                    height={128}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Muhammad Fadhlan Karimuddin</h3>
                 <p className="text-[#2e31ce] font-medium">Backend Developer</p>
