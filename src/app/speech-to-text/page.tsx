@@ -115,14 +115,18 @@ export default function SpeechToTextPage() {
       setTranscript(data.text);
       setError('');
     } catch (err) {
-      if (err.name === 'AbortError') {
-        setError('Request timed out. Please try again.');
-      } else if (err.message.includes('Failed to fetch')) {
-        setError('Unable to connect to the server. Please check your internet connection.');
+      if (err instanceof Error) {
+        if (err.name === 'AbortError') {
+          setError('Request timed out. Please try again.');
+        } else if (err.message.includes('Failed to fetch')) {
+          setError('Unable to connect to the server. Please check your internet connection.');
+        } else {
+          setError('An error occurred while processing your request. Please try again.');
+        }
       } else {
-        setError(err.message || 'An error occurred while processing your speech.');
+        setError('An unexpected error occurred. Please try again.');
       }
-      console.error('Error sending audio to server:', err);
+      setTranscript('');
     }
   };
 
