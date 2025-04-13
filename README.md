@@ -2,6 +2,14 @@
 
 The frontend application for Readibly, built with Next.js and TypeScript.
 
+## Our team
+
+Hackteunnn:
+
+- Muhammad Fadhlan Karimuddin
+- Muhammad Rizain Firdaus
+- Stefanny Josefina Santono
+
 ## Features
 
 - PDF Reader with text-to-speech
