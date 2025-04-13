@@ -134,6 +134,45 @@ export default function Home() {
           <FAQ />
         </div>
       </AnimatedSection>
+
+      {/* CTA Section */}
+      <AnimatedSection className="w-full py-24 bg-gradient-to-r from-[#2e31ce] to-[#772abe]">
+        <div className="container mx-auto px-4 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-4xl mx-auto text-center"
+          >
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Join Now For Free
+            </h2>
+            <p className="text-xl text-white/90 mb-8">
+              Start your journey to better reading today. No credit card required.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/signup">
+                <Button className="bg-white text-[#2e31ce] hover:bg-white/90 text-base font-medium px-8 py-6 rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl">
+                  Sign Up Free
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/login">
+                <Button className="border-2 border-white/20 bg-transparent text-white hover:bg-white/10 text-base font-medium px-8 py-6 rounded-lg transition-all duration-300">
+                  Login
+                </Button>
+              </Link>
+            </div>
+            <div className="mt-8 flex items-center justify-center text-white/80">
+              <div className="flex items-center">
+                <Sparkles className="h-5 w-5 mr-2" />
+                <span>Free To Use Anytime Anywhere</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </AnimatedSection>
     </div>
   );
 }

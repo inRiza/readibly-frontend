@@ -22,9 +22,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     '/learn/templates-type'
   ];
 
+  // Define auth routes where navbar and footer should be hidden
+  const authRoutes = ['/login', '/signup'];
+
   // Check if current route is protected
   const isServicePage = protectedRoutes.some(route => pathname?.startsWith(route));
   const isTutorialPage = pathname === '/tutorial';
+  const isAuthPage = authRoutes.includes(pathname || '');
 
   // Add metadata for the page
   useEffect(() => {
@@ -34,11 +38,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <AuthProvider>
       <div className="min-h-screen flex flex-col">
-        {!isTutorialPage && !isServicePage && <Navbar />}
-        <main className={`flex-grow ${!isTutorialPage && !isServicePage ? 'pt-16' : ''}`}>
+        {!isTutorialPage && !isServicePage && !isAuthPage && <Navbar />}
+        <main className={`flex-grow ${!isTutorialPage && !isServicePage && !isAuthPage ? 'pt-16' : ''}`}>
           {children}
         </main>
-        {!isTutorialPage && !isServicePage && <Footer />}
+        {!isTutorialPage && !isServicePage && !isAuthPage && <Footer />}
       </div>
     </AuthProvider>
   );

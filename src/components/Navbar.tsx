@@ -31,19 +31,12 @@ export default function Navbar() {
     {
       name: 'Services',
       dropdown: [
-        { name: 'Option 1', href: '/services/option1' },
-        { name: 'Option 2', href: '/services/option2' },
-        { name: 'Option 3', href: '/services/option3' },
+        { name: 'PDF Reader', href: '/login' },
+        { name: 'Speech to Text', href: '/login' },
+        { name: 'Learning Centre', href: '/login' },
       ]
     },
-    {
-      name: 'About',
-      dropdown: [
-        { name: 'Option 1', href: '/about/option1' },
-        { name: 'Option 2', href: '/about/option2' },
-        { name: 'Option 3', href: '/about/option3' },
-      ]
-    },
+    { name: 'About', href: '/about' },
   ];
 
   return (
