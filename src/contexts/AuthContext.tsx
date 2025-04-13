@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 import axios from 'axios';
 
 // Configure axios defaults
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://readibly-backend-production.up.railway.app';
 axios.defaults.withCredentials = true; // Enable credentials
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
