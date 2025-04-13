@@ -91,6 +91,9 @@ export default function SpeechToTextPage() {
       const formData = new FormData();
       formData.append('audio', audioBlob, 'recording.webm');
 
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'}/api/speech-to-text`, {
         method: 'POST',
         body: formData,
@@ -98,18 +101,28 @@ export default function SpeechToTextPage() {
         headers: {
           'Accept': 'application/json',
         },
+        signal: controller.signal
       });
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.detail || 'Failed to convert speech to text');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'Failed to process speech-to-text request');
       }
 
       const data = await response.json();
-      setTranscript(prev => prev + (prev ? ' ' : '') + data.text);
+      setTranscript(data.text);
+      setError('');
     } catch (err) {
+      if (err.name === 'AbortError') {
+        setError('Request timed out. Please try again.');
+      } else if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please check your internet connection.');
+      } else {
+        setError(err.message || 'An error occurred while processing your speech.');
+      }
       console.error('Error sending audio to server:', err);
-      setError('Failed to convert speech to text. Please try again.');
     }
   };
 

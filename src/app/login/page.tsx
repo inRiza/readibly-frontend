@@ -105,14 +105,9 @@ function LoginContent() {
           </div>
 
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <Link href="/forgot-password" className="text-sm text-[#2e31ce] hover:text-[#1e1f9e]">
-                Forgot password?
-              </Link>
-            </div>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
             <input
               id="password"
               name="password"
@@ -121,38 +116,29 @@ function LoginContent() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              disabled={isLoading}
-              className="w-full px-4 py-2.5 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e31ce] focus:border-transparent transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2.5 text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#2e31ce] focus:border-transparent transition-colors"
               placeholder="Enter your password"
             />
           </div>
 
-          <div className="flex items-center">
-            <input
-              id="remember-me"
-              name="remember-me"
-              type="checkbox"
-              className="h-4 w-4 text-[#2e31ce] focus:ring-[#2e31ce] border-gray-300 rounded"
-            />
-            <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-              Remember me
-            </label>
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 px-4 bg-[#2e31ce] text-white font-medium rounded-lg hover:bg-[#1e20b8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2e31ce] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Signing in...' : 'Sign in'}
+            </button>
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full py-2.5 px-4 bg-[#2e31ce] text-white rounded-lg hover:bg-[#1e1f9e] focus:outline-none focus:ring-2 focus:ring-[#2e31ce] focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isLoading ? 'Signing in...' : 'Sign in'}
-          </button>
-
-          <p className="text-center text-sm text-gray-600">
-            Don't have an account?{' '}
-            <Link href="/signup" className="text-[#2e31ce] hover:text-[#1e1f9e]">
-              Sign up
-            </Link>
-          </p>
+          <div className="text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <Link href="/signup" className="text-[#2e31ce] hover:text-[#1e20b8] font-medium">
+                Sign up
+              </Link>
+            </p>
+          </div>
         </form>
       </motion.div>
     </div>

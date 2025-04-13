@@ -111,48 +111,20 @@ export default function SignupPage() {
             </motion.div>
           )}
 
-          <div className="flex items-start">
-            <input
-              id="terms"
-              name="terms"
-              type="checkbox"
-              required
-              className="h-4 w-4 mt-1 text-[#2e31ce] focus:ring-[#2e31ce] border-gray-300 rounded"
-            />
-            <label htmlFor="terms" className="ml-2 block text-sm text-gray-900">
-              I agree to the{' '}
-              <Link href="/terms" className="font-medium text-[#2e31ce] hover:text-[#2e31ce]/80">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="/privacy" className="font-medium text-[#2e31ce] hover:text-[#2e31ce]/80">
-                Privacy Policy
-              </Link>
-            </label>
+          <div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 px-4 bg-[#2e31ce] text-white font-medium rounded-lg hover:bg-[#1e20b8] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2e31ce] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? 'Creating account...' : 'I\'m ready to use Readibly'}
+            </button>
           </div>
 
-          <button
-            type="submit"
-            disabled={isLoading}
-            className={`w-full flex justify-center py-3 px-4 text-base font-medium rounded-lg text-white bg-[#2e31ce] hover:bg-[#2e31ce]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#2e31ce] transition-colors ${
-              isLoading ? 'opacity-75 cursor-not-allowed' : ''
-            }`}
-          >
-            {isLoading ? (
-              <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-              </span>
-            ) : null}
-            {isLoading ? 'Creating account...' : 'Create account'}
-          </button>
-
-          <div className="text-center mt-4">
+          <div className="text-center">
             <p className="text-sm text-gray-600">
               Already have an account?{' '}
-              <Link href="/login" className="font-medium text-[#2e31ce] hover:text-[#2e31ce]/80">
+              <Link href="/login" className="text-[#2e31ce] hover:text-[#1e20b8] font-medium">
                 Sign in
               </Link>
             </p>
