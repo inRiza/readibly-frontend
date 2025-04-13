@@ -6,10 +6,36 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://readibly-ba
 axios.defaults.withCredentials = true; // Enable credentials
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
-// Add CORS headers
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
-axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
+// Remove CORS headers from frontend (they should be set by the backend)
+delete axios.defaults.headers.common['Access-Control-Allow-Origin'];
+delete axios.defaults.headers.common['Access-Control-Allow-Methods'];
+delete axios.defaults.headers.common['Access-Control-Allow-Headers'];
+delete axios.defaults.headers.common['Access-Control-Allow-Credentials'];
+
+// Add request interceptor for logging
+axios.interceptors.request.use(
+  (config) => {
+    console.log('Making request to:', config.url);
+    console.log('Request headers:', config.headers);
+    return config;
+  },
+  (error) => {
+    console.error('Request error:', error);
+    return Promise.reject(error);
+  }
+);
+
+// Add response interceptor for logging
+axios.interceptors.response.use(
+  (response) => {
+    console.log('Response received:', response.status, response.data);
+    return response;
+  },
+  (error) => {
+    console.error('Response error:', error.response?.status, error.response?.data);
+    return Promise.reject(error);
+  }
+);
 
 interface User {
   id: string;
@@ -68,7 +94,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       formData.append('username', email);
       formData.append('password', password);
 
-      console.log('Attempting login with:', { email, baseURL: axios.defaults.baseURL });
+      console.log('Attempting login with:', { 
+        email, 
+        baseURL: axios.defaults.baseURL,
+        headers: axios.defaults.headers.common
+      });
 
       const response = await axios.post<{ access_token: string; token_type: string }>(
         '/auth/login',
@@ -78,6 +108,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'application/json',
           },
+          withCredentials: true
         }
       );
 
@@ -92,7 +123,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 
       // Fetch user details after successful login
-      const userResponse = await axios.get<User>('/auth/me');
+      const userResponse = await axios.get<User>('/auth/me', {
+        withCredentials: true
+      });
       console.log('User details:', userResponse.data);
       setUser(userResponse.data);
     } catch (error) {
@@ -101,7 +134,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         console.error('Error details:', {
           status: error.response?.status,
           data: error.response?.data,
-          headers: error.response?.headers
+          headers: error.response?.headers,
+          config: {
+            url: error.config?.url,
+            method: error.config?.method,
+            headers: error.config?.headers
+          }
         });
         const errorMessage = error.response?.data?.detail || 'Login failed. Please try again.';
         throw new Error(errorMessage);
