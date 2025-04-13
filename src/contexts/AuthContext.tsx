@@ -6,6 +6,11 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || 'https://readibly-ba
 axios.defaults.withCredentials = true; // Enable credentials
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
+// Add CORS headers
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Content-Type, Authorization';
+
 interface User {
   id: string;
   email: string;
@@ -63,7 +68,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       formData.append('username', email);
       formData.append('password', password);
 
-      console.log('Attempting login with:', { email });
+      console.log('Attempting login with:', { email, baseURL: axios.defaults.baseURL });
 
       const response = await axios.post<{ access_token: string; token_type: string }>(
         '/auth/login',
@@ -71,11 +76,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json',
           },
         }
       );
 
       console.log('Login response:', response.data);
+
+      if (!response.data.access_token) {
+        throw new Error('No access token received');
+      }
 
       const { access_token } = response.data;
       localStorage.setItem('token', access_token);
@@ -88,7 +98,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } catch (error) {
       console.error('Login error:', error);
       if (axios.isAxiosError(error)) {
-        console.error('Error details:', error.response?.data);
+        console.error('Error details:', {
+          status: error.response?.status,
+          data: error.response?.data,
+          headers: error.response?.headers
+        });
         const errorMessage = error.response?.data?.detail || 'Login failed. Please try again.';
         throw new Error(errorMessage);
       }
