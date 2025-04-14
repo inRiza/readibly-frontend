@@ -10,6 +10,9 @@ Hackteunnn:
 - Muhammad Rizain Firdaus
 - Stefanny Josefina Santono
 
+## 🔗 Backend Repository
+[Readibly/readibly-backend](https://github.com/Readibly/readibly-backend)
+
 ## Features
 
 - PDF Reader with text-to-speech
